@@ -1,3 +1,5 @@
+>This fork adds GitHub Actions workflows for CI/CD. Based on BaseMax/SimpleFastPyAPI, licensed under GPLv3. All changes remain under the same license.
+
 # Simple FastAPI Py
 
 ## My Awesome FastAPI Project
