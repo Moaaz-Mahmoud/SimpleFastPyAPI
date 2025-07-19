@@ -11,21 +11,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up Docker
-        uses: actions/setup-docker@v2
-        with:
-          python-version: '3.11'
       - name: Build Docker image
         run: |
-          docker build -t SimpleFastPyAPI .
+          docker build -t simple-fast-py-api .
       - name: Run app
         run: |
-          docker run -p 8000:8000 -v $(pwd)/users.db:/app/users.db SimpleFastPyAPI
-  
-  run-requests:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+          docker run -d -p 8000:8000 -v $(pwd)/users.db:/app/users.db simple-fast-py-api
+      # Sample requests
       - name: request-1
         run: |
           curl http://localhost:8000/users/ -H "Accept: application/json"
