@@ -2,6 +2,8 @@ name: CI
 
 on:
   push:
+    branches:
+      - "**"
 
 jobs:
   build:
@@ -21,7 +23,7 @@ jobs:
           docker run -p 8000:8000 -v $(pwd)/users.db:/app/users.db SimpleFastPyAPI
   
   run-requests:
-    depends-on: build
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: request-1
