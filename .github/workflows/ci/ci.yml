@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker
+        uses: actions/setup-docker@v2
+        with:
+          python-version: '3.11'
+      - name: Build Docker image
+        run: |
+          docker build -t SimpleFastPyAPI .
+      - name: Run app
+        run: |
+          docker run -p 8000:8000 -v $(pwd)/users.db:/app/users.db SimpleFastPyAPI
+  
+  run-requests:
+    depends-on: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: request-1
+        run: |
+          curl http://localhost:8000/users/ -H "Accept: application/json"
+      - name: request-2
+        run: |
+          curl http://localhost:8000/users/1 -H "Accept: application/json"
