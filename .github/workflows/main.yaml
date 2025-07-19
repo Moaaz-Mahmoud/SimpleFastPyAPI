@@ -18,6 +18,16 @@ jobs:
         run: |
           docker run -d -p 8000:8000 -v $(pwd)/users.db:/app/users.db simple-fast-py-api
       # Sample requests
+      - name: sample-request
+        run: |
+          for i in {1..30}; do
+            echo "⌛ Waiting for http://localhost:8000/docs (attempt $i)..."
+            if curl -s --fail http://localhost:8000/docs > /dev/null; then
+              echo "✅ FastAPI is up!"
+              break
+            fi
+            sleep 1
+          done
       - name: request-1
         run: |
           curl http://localhost:8000/users/ -H "Accept: application/json"
